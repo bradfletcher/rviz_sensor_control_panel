@@ -1,0 +1,23 @@
+<library path="${prefix}/lib/libud_panel">
+  <class name="ud_panel"
+         type="hubo_init_space::HuboInitPanel"
+         base_class_type="rviz::Panel">
+    <description>
+      A panel widget to interface with hardware initialization commands
+    </description>
+  </class>
+  <class name="HuboInitWidget"
+         type="hubo_init_space::HuboInitWidget"
+         base_class_type="QTabWidget">
+    <description>
+      The widget which is laid on top of the HuboInitPanel
+    </description>
+  </class>
+  <class name="FlowLayout"
+         type="FlowLayout"
+         base_class_type="QLayout">
+    <description>
+      An implementation of QLayout which dynamically sizes
+    </description>
+  </class>
+</library>

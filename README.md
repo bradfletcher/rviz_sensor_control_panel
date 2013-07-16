@@ -1,8 +1,9 @@
-Questions/Support: mxgrey@gatech.edu
+Questions/Support: brad@udel.edu
 
-RViz plugin for initializing Hubo hardware
+Thanks to Grey at GT for allowing me to modify portion of the GT 
+'hubo init" program.  mxgrey@gatech.edu
 
-Finally, a graphical user interface for running the Hubo hardware on Linux! :D
+RViz plugin for working with sensors.
 
 As was decided at the Drexel meeting in February, GUIs for operating Hubo on Linux
 are going to be ROS-based (specifically using RViz). This is the first step in making
@@ -14,7 +15,7 @@ _______________________________  IF  YOU  ARE  NEW  TO  ROS  ___________________
 I strongly recommend looking over the tutorials for ROS: http://www.ros.org/wiki/ROS/Tutorials
 You will not technically need to understand ROS or how it works to use hubo_init, but
 it is not difficult to learn and will certainly be worthwhile down the road. Regardless,
-below I am providing instructions to install and run hubo_init which should be sufficient
+below I am providing instructions to install and run rviz_sensor_control_panel which should be sufficient
 whether or not you are familiar with ROS.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -24,7 +25,7 @@ whether or not you are familiar with ROS.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ___________________________ PREREQUISITES ______________________________
 
-This package depends on both ROS and hubo-ach.
+This package depends on both ROS.
 
 To obtain hubo-ach, follow the instructions here:
 https://github.com/hubo/hubo-ach
@@ -55,7 +56,7 @@ From now on, the directory ~/catkin_ws/src will be where you keep your ROS packa
 To install hubo_init, copy/paste the following block into a terminal:
 
 cd ~/catkin_ws/src
-git clone https://github.com/hubo/hubo_init.git
+git clone https://github.com/bradfletcher/rviz_sensor_control_panel.git
 cd ~/catkin_ws
 catkin_make
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -69,31 +70,13 @@ To use hubo_init, do the following:
     $ roscore
    This will eat up the terminal. Minimize it or move it out of the way.
 
-2) ssh to Hubo's on-board computer and run either
-    $ hubo-ach start
-   or
-    $ sudo service hubo-motion start
-   depending on which you intend to use.
-
-   Ignore hubo-console or tech-console (quit out of them or put them aside).
-   You will use hubo_init instead.
-
-3) From your workstation (whatever desktop or laptop you use), run
+2) From your workstation (whatever desktop or laptop you use), run
     $ rosrun rviz rviz
 
-4) If this is your first time using hubo_init, do the following:
+3) If this is your first time using hubo_init, do the following:
     a) In the menu bar at the very top, click on 'Panels'
     b) Click on 'Add new panel'
-    c) Select HuboInitPanel
-    d) Adjust the new panel to whatever size you are comfortable with
+    c) Select ud_panel
 
-5) Make sure the IP Address in the 'Ach Networking' box is correct for your Hubo
-    *) If you don't know how to check this, contact mxgrey@gatech.edu
-    *) You are encouraged to save RViz after you have the IP Address in.
-       Saving RViz also saves the IP Address fields.
-
-6) Click Connect
-
-7) Do whatever.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

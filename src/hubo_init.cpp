@@ -95,7 +95,7 @@ HuboInitWidget::HuboInitWidget(QWidget *parent)
     std::cerr << "Flea Tab Loaded" << std::endl;
     
     initializeIMUStateTab();
-    std::cerr << "IMU Tab Loaded" << std::endl;
+    std::cerr << "IMU Tab Loadedaaa" << std::endl;
 
     //addTab(commandTab, "Joint Command");
     //addTab(jointStateTab, "Joint State");

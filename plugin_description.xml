@@ -1,4 +1,4 @@
-<library path="${prefix}/lib/libud_panel">
+<library path="${prefix}/lib/librviz_sensor_control_panel">
   <class name="ud_panel"
          type="hubo_init_space::HuboInitPanel"
          base_class_type="rviz::Panel">

@@ -1,5 +1,5 @@
 <library path="${prefix}/lib/librviz_sensor_control_panel">
-  <class name="ud_panel"
+  <class name="SensorControlPanel"
          type="rviz_sensor_control_panel_space::SensorControlPanel"
          base_class_type="rviz::Panel">
     <description>

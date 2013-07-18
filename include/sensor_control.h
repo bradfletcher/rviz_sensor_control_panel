@@ -87,6 +87,12 @@ public:
   ~SensorControlTab();
 
   QString groupStyleSheet;
+  
+   ///////////////
+  //ROS Related
+  
+  ros::NodeHandle n;
+  ros::Publisher hokuyo_pub;
 
 
   // Handler for the nested ach daemon process

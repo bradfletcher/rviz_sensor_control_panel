@@ -9,10 +9,14 @@
 #include "sensor_control.h"
 #include "FlowLayout.h"
 
+//added
+#include "ros/ros.h"
+#include "std_msgs/String.h"
+#include "rviz_sensor_control_panel/HokuyoCommand.h"
+#include <sstream>
+
 namespace rviz_sensor_control_panel_space
 {
-
-
 
 SensorControlPanel::SensorControlPanel(QWidget *parent)
     : rviz::Panel(parent)
@@ -44,6 +48,13 @@ SensorControlTab::SensorControlTab(QWidget *parent)
                       "left: 10px;"
                       "padding: 0 3px 0 3px;"
                       "}";
+                     
+    //added ros stuff
+    int argc = 0;
+    char **argv;
+    ros::init(argc, argv, "talker");
+    hokuyo_pub = n.advertise<rviz_sensor_control_panel::HokuyoCommand>("hokuyo_control", 1000);
+    //
 
     
     initializeHokuyoStateTab();

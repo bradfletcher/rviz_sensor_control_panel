@@ -1,13 +1,13 @@
-<library path="${prefix}/lib/libud_panel">
-  <class name="ud_panel"
-         type="hubo_init_space::HuboInitPanel"
+<library path="${prefix}/lib/librviz_sensor_control_panel">
+  <class name="RVizSensorControlPanel"
+         type="rviz_sensor_control_panel_space::RVizSensorControlPanel"
          base_class_type="rviz::Panel">
     <description>
       A panel widget to interface with hardware initialization commands
     </description>
   </class>
-  <class name="HuboInitWidget"
-         type="hubo_init_space::HuboInitWidget"
+  <class name="RVizSensorControlPanelWidget"
+         type="rviz_sensor_control_panel_space::RVizSensorControlPanelWidget"
          base_class_type="QTabWidget">
     <description>
       The widget which is laid on top of the HuboInitPanel

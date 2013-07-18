@@ -36,19 +36,19 @@
 
 #include "hubo_init.h"
 
-namespace hubo_init_space
+namespace rviz_sensor_control_panel_space
 {
 
-void HuboInitWidget::refreshState()
+void SensorControlTab::refreshState()
 {
 	
 } 
 
-void HuboInitWidget::hokuyoEditHandle()
+void SensorControlTab::hokuyoEditHandle()
 {
     //ipAddrA = ipAddrAEdit->text().toInt();
     std::cerr << "Hokuyo Scan: start at: " <<  txtMinTheta->text().toStdString() << "end at: " << txtMaxTheta->text().toStdString() << " at a rate of " << txtDPS->text().toStdString() << std::endl;
     //std::cerr << "text" ; 
 }
 
-} // End: namespace hubo_init_space
+} // End: namespace rviz_sensor_control_panel_space

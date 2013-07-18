@@ -38,28 +38,28 @@
 #include "hubo_init.h"
 #include "FlowLayout.h"
 
-namespace hubo_init_space
+namespace rviz_sensor_control_panel_space
 {
 
 
 
-HuboInitPanel::HuboInitPanel(QWidget *parent)
+SensorControlPanel::SensorControlPanel(QWidget *parent)
     : rviz::Panel(parent)
 {
-    content = new HuboInitWidget;
+    content = new SensorControlTab;
     QHBoxLayout* panelLayout = new QHBoxLayout;
     panelLayout->addWidget(content);
     setLayout(panelLayout);
 }
 
-HuboInitWidget::~HuboInitWidget()
+SensorControlTab::~SensorControlTab()
 {
     refreshManager->alive = false;
     refreshManager->quit();
     refreshManager->wait();
 }
 
-HuboInitWidget::HuboInitWidget(QWidget *parent)
+SensorControlTab::SensorControlTab(QWidget *parent)
     : QTabWidget(parent)
 {
 
@@ -89,13 +89,13 @@ HuboInitWidget::HuboInitWidget(QWidget *parent)
     addTab(imuStateTab, "IMU Control");
 
     
-    refreshManager = new HuboRefreshManager;
+    refreshManager = new RVizRefreshManager;
     refreshManager->parentWidget = this;
     connect(this, SIGNAL(sendWaitTime(int)), refreshManager, SLOT(getWaitTime(int)));
     refreshManager->start();
 }
 
-void HuboInitWidget::initializeIMUStateTab()
+void SensorControlTab::initializeIMUStateTab()
 {
     //Create a grid layout.
     QGridLayout* imuStateLayout = new QGridLayout;
@@ -111,7 +111,7 @@ void HuboInitWidget::initializeIMUStateTab()
     imuStateTab->setLayout(imuStateLayout);
 }
 
-void HuboInitWidget::initializeFleaStateTab()
+void SensorControlTab::initializeFleaStateTab()
 {
 	//Create a grid layout.
     QGridLayout* fleaStateLayout = new QGridLayout;
@@ -154,7 +154,7 @@ void HuboInitWidget::initializeFleaStateTab()
     fleaStateTab->setLayout(fleaStateLayout);
 }
 
-void HuboInitWidget::initializeHokuyoStateTab()
+void SensorControlTab::initializeHokuyoStateTab()
 {
 	//Create a box layout.
 	QVBoxLayout* hokuyoStateLayout = new QVBoxLayout;
@@ -222,7 +222,7 @@ void HuboInitWidget::initializeHokuyoStateTab()
     hokuyoStateTab->setLayout(hokuyoStateLayout);
 }
 
-void HuboRefreshManager::run()
+void RVizRefreshManager::run()
 {
     alive = true;
     waitTime = 1000;
@@ -235,13 +235,13 @@ void HuboRefreshManager::run()
     emit finished();
 }
 
-void HuboRefreshManager::getWaitTime(int t)
+void RVizRefreshManager::getWaitTime(int t)
 {
     waitTime = t;
 }
 
 
-void HuboInitPanel::save(rviz::Config config) const
+void SensorControlPanel::save(rviz::Config config) const
 {
     /*rviz::Panel::save(config);
     config.mapSetValue("Class", getClassId());
@@ -260,7 +260,7 @@ void HuboInitPanel::save(rviz::Config config) const
 
 }
 
-void HuboInitPanel::load(const rviz::Config &config)
+void SensorControlPanel::load(const rviz::Config &config)
 {
     /*rviz::Panel::load(config);
     rviz::Config ip_config = config.mapGetChild("HuboIP");
@@ -273,12 +273,12 @@ void HuboInitPanel::load(const rviz::Config &config)
 }
 
 
-} // End hubo_init_space
+} // rviz_sensor_control_panel_space
 
 
 
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_EXPORT_CLASS( hubo_init_space::HuboInitPanel,rviz::Panel )
-PLUGINLIB_EXPORT_CLASS( hubo_init_space::HuboInitWidget, QTabWidget )
-PLUGINLIB_EXPORT_CLASS( hubo_init_space::HuboRefreshManager, QThread )
+PLUGINLIB_EXPORT_CLASS( rviz_sensor_control_panel_space::SensorControlPanel,rviz::Panel )
+PLUGINLIB_EXPORT_CLASS( rviz_sensor_control_panel_space::SensorControlTab, QTabWidget )
+PLUGINLIB_EXPORT_CLASS( rviz_sensor_control_panel_space::RVizRefreshManager, QThread )

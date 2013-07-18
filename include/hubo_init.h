@@ -72,16 +72,16 @@
 #include <hubo.h>
 #include <hubo-jointparams.h>
 
-namespace hubo_init_space
+namespace rviz_sensor_control_panel_space
 {
 
-class HuboInitWidget;
+class SensorControlTab;
 
-class HuboRefreshManager : public QThread
+class RVizRefreshManager : public QThread
 {
 Q_OBJECT
 public:
-    HuboInitWidget* parentWidget;
+    SensorControlTab* parentWidget;
     bool alive;
     int waitTime;
 
@@ -99,7 +99,7 @@ signals:
 // Here we declare our new subclass of rviz::Panel.  Every panel which
 // can be added via the Panels/Add_New_Panel menu is a subclass of
 // rviz::Panel.
-class HuboInitWidget: public QTabWidget
+class SensorControlTab: public QTabWidget
 {
 // This class uses Qt slots and is a subclass of QObject, so it needs
 // the Q_OBJECT macro.
@@ -112,8 +112,8 @@ public:
   // a default of 0 lets the default constructor work and also lets
   // someone using the class for something else to pass in a parent
   // widget as they normally would with Qt.
-  HuboInitWidget( QWidget* parent = 0 );
-  ~HuboInitWidget();
+  SensorControlTab( QWidget* parent = 0 );
+  ~SensorControlTab();
 
   QString groupStyleSheet;
 
@@ -127,7 +127,7 @@ public:
   bool cmdConnected;
   
   // Update timer
-  HuboRefreshManager* refreshManager;
+  RVizRefreshManager* refreshManager;
   int getRefreshTime();
 
   // Ach Channels for sending and receiving data
@@ -257,11 +257,11 @@ private:
 };
 
 
-class HuboInitPanel : public rviz::Panel
+class SensorControlPanel : public rviz::Panel
 {
 Q_OBJECT
 public:
-    HuboInitPanel(QWidget *parent = 0);
+    SensorControlPanel(QWidget *parent = 0);
 
     // Now we declare overrides of rviz::Panel functions for saving and
     // loading data from the config file.  Here the data is the
@@ -271,11 +271,11 @@ public:
 
 private:
 
-    HuboInitWidget* content;
+    SensorControlTab* content;
 
 };
 
-} // end namespace rviz_plugin_tutorials
+} // end namespace rviz_sensor_control_panel_space
 
 
 #endif // TELEOP_PANEL_H

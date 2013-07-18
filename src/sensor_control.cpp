@@ -6,7 +6,7 @@
  */
 
 
-#include "hubo_init.h"
+#include "sensor_control.h"
 #include "FlowLayout.h"
 
 namespace rviz_sensor_control_panel_space

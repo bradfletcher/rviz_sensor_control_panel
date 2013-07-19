@@ -64,7 +64,7 @@ SensorControlTab::SensorControlTab(QWidget *parent)
     std::cerr << "Flea Tab Loaded" << std::endl;
     
     initializeIMUStateTab();
-    std::cerr << "IMU Tab Loadedaaa" << std::endl;
+    std::cerr << "IMU Tab Loaded" << std::endl;
 
     addTab(hokuyoStateTab, "Hokuyo Control");
     addTab(fleaStateTab, "Flea3 Control");

@@ -40,8 +40,8 @@
 
 #include <rviz/panel.h>
 
-#include <hubo.h>
-#include <hubo-jointparams.h>
+//#include <hubo.h>
+//#include <hubo-jointparams.h>
 
 namespace rviz_sensor_control_panel_space
 {
@@ -108,10 +108,10 @@ public:
   int getRefreshTime();
 
   // Ach Channels for sending and receiving data
-  ach_channel_t stateChan;
-  bool stateOpen;
-  ach_channel_t cmdChan;
-  bool cmdOpen;
+  //  ach_channel_t stateChan;
+  //  bool stateOpen;
+  //  ach_channel_t cmdChan;
+  //  bool cmdOpen;
 
   void initializeAchConnections();
   void initializeAchStructs();
@@ -127,9 +127,9 @@ public:
   int getIPAddress(int index);
 
   // Structs for storing data to transmit
-  struct hubo_state h_state;
-  struct hubo_board_cmd h_cmd;
-  struct hubo_param h_param;
+  //  struct hubo_state h_state;
+  //  struct hubo_board_cmd h_cmd;
+  //  struct hubo_param h_param;
   
   bool checkJointError(int id);
   bool checkJointHomed(int id);
@@ -173,18 +173,18 @@ protected Q_SLOTS:
   void refreshState();
 
   // Deal with achd crashes/failures
-  void achdSStartedSlot();
-  void achdCStartedSlot();
-  void achdSExitError(QProcess::ProcessError err);
-  void achdSExitFinished(int num, QProcess::ExitStatus status);
-  void achdCExitError(QProcess::ProcessError err);
-  void achdCExitFinished(int num, QProcess::ExitStatus status);
-  void achdConnectSlot();
-  void achdDisconnectSlot();
-  void achCreateCatch(QProcess::ProcessError err);
+  //  void achdSStartedSlot();
+  //  void achdCStartedSlot();
+  //  void achdSExitError(QProcess::ProcessError err);
+  //  void achdSExitFinished(int num, QProcess::ExitStatus status);
+  //  void achdCExitError(QProcess::ProcessError err);
+  //  void achdCExitFinished(int num, QProcess::ExitStatus status);
+  //  void achdConnectSlot();
+  //  void achdDisconnectSlot();
+  //  void achCreateCatch(QProcess::ProcessError err);
   
-  void achCreateSHandle();
-  void achCreateCHandle();
+  //  void achCreateSHandle();
+  //  void achCreateCHandle();
   
   void ipEditHandle(const QString &text);
 

@@ -12,7 +12,7 @@
 //added
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-#include "rviz_sensor_control_panel/HokuyoCommand.h"
+//#include "rviz_sensor_control_panel/HokuyoCommand.h"
 #include <sstream>
 
 namespace rviz_sensor_control_panel_space
@@ -53,7 +53,7 @@ SensorControlTab::SensorControlTab(QWidget *parent)
     int argc = 0;
     char **argv;
     ros::init(argc, argv, "talker");
-    hokuyo_pub = n.advertise<rviz_sensor_control_panel::HokuyoCommand>("hokuyo_control", 1000);
+    //    hokuyo_pub = n.advertise<rviz_sensor_control_panel::HokuyoCommand>("hokuyo_control", 1000);
     //
 
     
@@ -66,9 +66,9 @@ SensorControlTab::SensorControlTab(QWidget *parent)
     initializeIMUStateTab();
     std::cerr << "IMU Tab Loaded" << std::endl;
 
-    addTab(hokuyoStateTab, "Hokuyo Control");
-    addTab(fleaStateTab, "Flea3 Control");
-    addTab(imuStateTab, "IMU Control");
+    addTab(hokuyoStateTab, "Hokuyo ladar");
+    addTab(fleaStateTab, "Flea3 camera");
+    addTab(imuStateTab, "Microstrain IMU");
 
     
     refreshManager = new RVizRefreshManager;
@@ -138,70 +138,94 @@ void SensorControlTab::initializeFleaStateTab()
 
 void SensorControlTab::initializeHokuyoStateTab()
 {
-	//Create a box layout.
-	QVBoxLayout* hokuyoStateLayout = new QVBoxLayout;
-	
-	//Create a group box.
-	hBox = new QGroupBox;
-    hBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    hBox->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
-    hBox->setStyleSheet(groupStyleSheet);
-    hBox->setTitle("Hokuyo Control");
+  //Create a box layout.
 
-    //Create a grid layout.
-    QGridLayout* hStateLayout = new QGridLayout;
-    hStateLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+  QVBoxLayout* hokuyoStateLayout = new QVBoxLayout;
+  
+  //Create a group box for "single sweep" action
 
-    QLabel* minTheta = new QLabel;
-    minTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    minTheta->setText("Starting Theta (Degrees)");
-    minTheta->setToolTip("Angle to start scan at.");
-    hStateLayout->addWidget(minTheta, 0, 0, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  hBox = new QGroupBox;
+  hBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  hBox->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+  hBox->setStyleSheet(groupStyleSheet);
+  hBox->setTitle("Single Sweep");
+  
+  //Create a grid layout
 
-    txtMinTheta = new QLineEdit;
-    txtMinTheta->setMaxLength(6);
-    txtMinTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    txtMinTheta->setReadOnly(false);
-    hStateLayout->addWidget(txtMinTheta, 1, 0, 1, 1, Qt::AlignCenter);
-    
-    QLabel* lblMaxTheta = new QLabel;
-    lblMaxTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    lblMaxTheta->setText("Max Theta (Degrees)");
-    lblMaxTheta->setToolTip("Angle Max");
-    hStateLayout->addWidget(lblMaxTheta, 0, 1, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  QGridLayout* hStateLayout = new QGridLayout;
+  hStateLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+  
+  // Min theta label
 
-    txtMaxTheta = new QLineEdit;
-    txtMaxTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    txtMaxTheta->setMaxLength(6);
-    txtMaxTheta->setReadOnly(false);
-    hStateLayout->addWidget(txtMaxTheta, 1, 1, 1, 1, Qt::AlignCenter);
+  QLabel* minTheta = new QLabel;
+  minTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  minTheta->setText("Min Theta (degs)");
+  minTheta->setToolTip("Tilt angle to start sweep at (negative is down)");
+  hStateLayout->addWidget(minTheta, 0, 0, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  
+  // Min theta text box
 
-    QLabel* lblDPS = new QLabel;
-    lblDPS->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    lblDPS->setText("Degrees Per Second");
-    lblDPS->setToolTip("Scan Rate");
-    hStateLayout->addWidget(lblDPS, 0, 2, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  txtMinTheta = new QLineEdit;
+  txtMinTheta->setMaxLength(6);
+  txtMinTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  txtMinTheta->setReadOnly(false);
+  txtMinTheta->setText("-10.0");
+  txtMinTheta->setAlignment(Qt::AlignRight);
+  hStateLayout->addWidget(txtMinTheta, 1, 0, 1, 1, Qt::AlignCenter);
 
-    txtDPS = new QLineEdit;
-    txtDPS->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    txtDPS->setMaxLength(6);
-    txtDPS->setReadOnly(false);
-    hStateLayout->addWidget(txtDPS, 1, 2, 1, 1, Qt::AlignCenter);
-    
-    btnScan = new QPushButton;
-    btnScan->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    btnScan->setText("Start Scan");
-    btnScan->setToolTip("Starts a scan of the Hokuyo.");
-    hStateLayout->addWidget(btnScan, 5, 0, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
-    
-    //Will need to connect this later
-    connect(btnScan, SIGNAL(clicked()), this, SLOT(hokuyoEditHandle()));
+  // Max theta label
 
-    hBox->setLayout(hStateLayout);
-    hokuyoStateLayout->addWidget(hBox, Qt::AlignHCenter | Qt::AlignTop);
+  QLabel* lblMaxTheta = new QLabel;
+  lblMaxTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  lblMaxTheta->setText("Max Theta (degs)");
+  lblMaxTheta->setToolTip("Tilt angle to finish sweep at");
+  hStateLayout->addWidget(lblMaxTheta, 0, 1, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
 
-    hokuyoStateTab = new QWidget;
-    hokuyoStateTab->setLayout(hokuyoStateLayout);
+  // Max theta text box
+
+  txtMaxTheta = new QLineEdit;
+  txtMaxTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  txtMaxTheta->setMaxLength(6);
+  txtMaxTheta->setReadOnly(false);
+  txtMaxTheta->setText("10.0");
+  txtMaxTheta->setAlignment(Qt::AlignRight);
+  hStateLayout->addWidget(txtMaxTheta, 1, 1, 1, 1, Qt::AlignCenter);
+
+  // Speed label
+
+  QLabel* lblDPS = new QLabel;
+  lblDPS->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  lblDPS->setText("Speed (degs/s)");
+  lblDPS->setToolTip("Tilt speed during sweep");
+  hStateLayout->addWidget(lblDPS, 0, 2, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  
+  // Speed text box
+
+  txtDPS = new QLineEdit;
+  txtDPS->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  txtDPS->setMaxLength(6);
+  txtDPS->setReadOnly(false);
+  txtDPS->setText("5.0");
+  txtDPS->setAlignment(Qt::AlignRight);
+  hStateLayout->addWidget(txtDPS, 1, 2, 1, 1, Qt::AlignCenter);
+
+  // button
+
+  btnScan = new QPushButton;
+  btnScan->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  btnScan->setText("Start Sweep");
+  btnScan->setToolTip("Execute single sweep now");
+  hStateLayout->addWidget(btnScan, 5, 0, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+  
+  //Will need to connect this later
+
+  connect(btnScan, SIGNAL(clicked()), this, SLOT(hokuyoEditHandle()));
+  
+  hBox->setLayout(hStateLayout);
+  hokuyoStateLayout->addWidget(hBox, Qt::AlignHCenter | Qt::AlignTop);
+  
+  hokuyoStateTab = new QWidget;
+  hokuyoStateTab->setLayout(hokuyoStateLayout);
 }
 
 void RVizRefreshManager::run()

@@ -12,7 +12,7 @@
 //added
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-//#include "rviz_sensor_control_panel/HokuyoCommand.h"
+#include "rviz_sensor_control_panel/HokuyoCommand.h"
 #include <sstream>
 
 namespace rviz_sensor_control_panel_space
@@ -53,7 +53,7 @@ SensorControlTab::SensorControlTab(QWidget *parent)
     int argc = 0;
     char **argv;
     ros::init(argc, argv, "talker");
-    //    hokuyo_pub = n.advertise<rviz_sensor_control_panel::HokuyoCommand>("hokuyo_control", 1000);
+        hokuyo_pub = n.advertise<rviz_sensor_control_panel::HokuyoCommand>("hokuyo_control", 1000);
     //
 
     

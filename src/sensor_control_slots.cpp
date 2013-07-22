@@ -11,7 +11,7 @@
 //added
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-//#include "rviz_sensor_control_panel/HokuyoCommand.h"
+#include "rviz_sensor_control_panel/HokuyoCommand.h"
 
 namespace rviz_sensor_control_panel_space
 {
@@ -34,13 +34,13 @@ void SensorControlTab::hokuyoEditHandle()
 
     printf("hokuyo edit\n"); fflush(stdout);
 
-    /*
+    
     rviz_sensor_control_panel::HokuyoCommand msg;
     msg.minTheta = txtMinTheta->text().toFloat();
     msg.maxTheta = txtMaxTheta->text().toFloat();
     msg.degreesPerSecond = txtDPS->text().toFloat();
     hokuyo_pub.publish(msg);
-    */
+    
 
     //ROS_INFO("%s", msg.data.c_str());
     ros::spinOnce();

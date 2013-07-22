@@ -53,7 +53,7 @@ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 From now on, the directory ~/catkin_ws/src will be where you keep your ROS package code.
 
 
-To install hubo_init, copy/paste the following block into a terminal:
+To install rviz_sensor_control_panel, copy/paste the following block into a terminal:
 
 cd ~/catkin_ws/src
 git clone https://github.com/bradfletcher/rviz_sensor_control_panel.git
@@ -64,7 +64,7 @@ catkin_make
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ____________________________ USAGE ___________________________________
-To use hubo_init, do the following:
+To use rviz_sensor_control_panel, do the following:
 
 1) Open a terminal and type in:
     $ roscore
@@ -76,7 +76,8 @@ To use hubo_init, do the following:
 3) If this is your first time using hubo_init, do the following:
     a) In the menu bar at the very top, click on 'Panels'
     b) Click on 'Add new panel'
-    c) Select ud_panel
+    c) Select rviz_sensor_control_panel
+    d) A panel should appear in rviz with options to send Hokuyo commands, Camera commands, and IMU commands
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

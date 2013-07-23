@@ -95,9 +95,22 @@ void SensorControlTab::initializeIMUStateTab()
 
 void SensorControlTab::initializeFleaStateTab()
 {
+	//Create a "Master" layout
+	//Create a box layout.
+    QVBoxLayout* fleaMasterLayout = new QVBoxLayout;
+    
+    ////////   Start of Capture Group Box   ///////
+    
 	//Create a grid layout.
     QGridLayout* fleaStateLayout = new QGridLayout;
     fleaStateLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    
+    //Create a group box for capture settings
+    QGroupBox* capBox = new QGroupBox;
+    capBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    capBox->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    capBox->setStyleSheet(groupStyleSheet);
+    capBox->setTitle("Capture Settings");
     
      // Set up the radio btns
     FlowLayout* radioLayoutFlea = new FlowLayout;
@@ -118,22 +131,189 @@ void SensorControlTab::initializeFleaStateTab()
     radioCmdButtonsFlea->addButton(rbGrayscale);
     radioLayoutFlea->addWidget(rbGrayscale);
     
-    fleaStateLayout->addLayout(radioLayoutFlea, 0, 0, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    fleaStateLayout->addLayout(radioLayoutFlea, 0, 0, 2, 1, Qt::AlignHCenter | Qt::AlignVCenter);
     
-    /*QVBoxLayout* boxLayout = new QVBoxLayout;
-    boxLayout->addLayout(radioLayoutFlea);
-    boxLayout->addSpacing(15);
-    boxLayout->addLayout(jointCmdLayout);*/
+     //adding combo box
+     // Pyramid levels
+     //0 - 1280 x 960
+     //1 - 640 x 480
+     //2 - 320 x 240
+     //3 - 160 x 120
+     //4 - 80 x 60
+     //5 - 40 x 30
+     
+     QComboBox *resComboBox = new QComboBox;
+     resComboBox->addItem(tr("1280 x 960"));
+     resComboBox->addItem(tr("640 x 480"));
+     resComboBox->addItem(tr("320 x 240"));
+     resComboBox->addItem(tr("160 x 120"));
+     resComboBox->addItem(tr("80 x 60"));
+     resComboBox->addItem(tr("40 x 30"));
+     
+     fleaStateLayout->addWidget(resComboBox, 0, 1, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+     
+     //res label
+     
+     QLabel* lblRes = new QLabel;
+     lblRes->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+     lblRes->setText("resolution");
+     lblRes->setToolTip("resolution to send camera frames at");
+     fleaStateLayout->addWidget(lblRes, 0, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+              
+     //fps
+     QComboBox *fpsComboBox = new QComboBox;
+     fpsComboBox->addItem(tr("60"));
+     fpsComboBox->addItem(tr("30"));
+     fpsComboBox->addItem(tr("15"));
+     fpsComboBox->addItem(tr("7.5"));
+     fpsComboBox->addItem(tr("3.75"));
+     fpsComboBox->addItem(tr("1.875"));
+     
+     fleaStateLayout->addWidget(fpsComboBox, 1, 1, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+     
+     //fps label
+     
+     QLabel* lblFPS = new QLabel;
+     lblFPS->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+     lblFPS->setText("fps");
+     lblFPS->setToolTip("fps to send camera frames at");
+     fleaStateLayout->addWidget(lblFPS, 1, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+     
+     ///////  End of first Group Box for Capture   //////////
+     
+     /////// Group Box - Message Sending / Display  /////////
+     
+     //Create a grid layout.
+    QGridLayout* fleaMessageStateLayout = new QGridLayout;
+    fleaMessageStateLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    
+    //Create a group box for message / display settings
+    QGroupBox* msgBox = new QGroupBox;
+    msgBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    msgBox->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    msgBox->setStyleSheet(groupStyleSheet);
+    msgBox->setTitle("Message Send / Display Settings");
+    
+     // Set up the radio btns
+    FlowLayout* radioMsgLayoutFlea = new FlowLayout;
+    QButtonGroup* radioMsgCmdButtonsFlea = new QButtonGroup(this);
+
+    radioMsgCmdButtonsFlea->setExclusive(true);
+
+    QRadioButton* rbMsgColor = new QRadioButton;
+    rbMsgColor->setText("Color");
+    rbMsgColor->setToolTip("Get color images");
+    rbMsgColor->setChecked(true);
+    radioMsgCmdButtonsFlea->addButton(rbMsgColor);
+    radioMsgLayoutFlea->addWidget(rbMsgColor);
+
+    QRadioButton* rbMsgGrayscale = new QRadioButton;
+    rbMsgGrayscale->setText("Grayscale");
+    rbMsgGrayscale->setToolTip("Get grayscale images");
+    radioMsgCmdButtonsFlea->addButton(rbMsgGrayscale);
+    radioMsgLayoutFlea->addWidget(rbMsgGrayscale);
+    
+    fleaMessageStateLayout->addLayout(radioMsgLayoutFlea, 0, 0, 2, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    
+     //adding combo box
+     // Pyramid levels
+     //0 - 1280 x 960
+     //1 - 640 x 480
+     //2 - 320 x 240
+     //3 - 160 x 120
+     //4 - 80 x 60
+     //5 - 40 x 30
+     
+     QComboBox *resMsgComboBox = new QComboBox;
+     resMsgComboBox->addItem(tr("1280 x 960"));
+     resMsgComboBox->addItem(tr("640 x 480"));
+     resMsgComboBox->addItem(tr("320 x 240"));
+     resMsgComboBox->addItem(tr("160 x 120"));
+     resMsgComboBox->addItem(tr("80 x 60"));
+     resMsgComboBox->addItem(tr("40 x 30"));
+     
+     fleaMessageStateLayout->addWidget(resMsgComboBox, 0, 1, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+     
+     //res label
+     
+     QLabel* lblMsgRes = new QLabel;
+     lblMsgRes->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+     lblMsgRes->setText("resolution");
+     lblMsgRes->setToolTip("resolution to send camera frames at");
+     fleaMessageStateLayout->addWidget(lblMsgRes, 0, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+     
+     /*
+     //auto exp
+     QCheckBox *cbxMsgAutoExp = new QCheckBox("Auto Exposure", this);
+     fleaMessageStateLayout->addWidget(cbxMsgAutoExp, 0, 3, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+     
+     //trigger
+     QCheckBox *cbxMsgTrigger = new QCheckBox("Trigger", this);
+     fleaMessageStateLayout->addWidget(cbxMsgTrigger, 1, 3, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter); */
+         
+     //fps
+     QComboBox *fpsMsgComboBox = new QComboBox;
+     fpsMsgComboBox->addItem(tr("60"));
+     fpsMsgComboBox->addItem(tr("30"));
+     fpsMsgComboBox->addItem(tr("15"));
+     fpsMsgComboBox->addItem(tr("7.5"));
+     fpsMsgComboBox->addItem(tr("3.75"));
+     fpsMsgComboBox->addItem(tr("1.875"));
+     
+     fleaMessageStateLayout->addWidget(fpsMsgComboBox, 1, 1, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+     
+     //fps label
+     
+     QLabel* lblMsgFPS = new QLabel;
+     lblMsgFPS->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+     lblMsgFPS->setText("fps");
+     lblMsgFPS->setToolTip("fps to send camera frames at");
+     fleaMessageStateLayout->addWidget(lblMsgFPS, 1, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+     
+     /////////////// end of Message Send Display Box ///////////////////////
+     
+      ////////   Start of Common Group Box   ///////
+    
+	//Create a grid layout.
+    QGridLayout* fleaCommonStateLayout = new QGridLayout;
+    fleaCommonStateLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    
+    //Create a group box for capture settings
+    QGroupBox* commonBox = new QGroupBox;
+    commonBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    commonBox->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    commonBox->setStyleSheet(groupStyleSheet);
+    commonBox->setTitle("Common Settings");
+    
+      //auto exp
+     QCheckBox *cbxAutoExp = new QCheckBox("Auto Exposure", this);
+     fleaCommonStateLayout->addWidget(cbxAutoExp, 0, 1, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+     
+     //trigger
+     QCheckBox *cbxTrigger = new QCheckBox("Trigger", this);
+     fleaCommonStateLayout->addWidget(cbxTrigger, 0, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    
+    ////////////////////   end of Group Box for common buttons   ////////////////////////
     
     //Send button
     btnSendFlea = new QPushButton;
     btnSendFlea->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     btnSendFlea->setText("Send to Flea");
     btnSendFlea->setToolTip("Sends the command.");
-    fleaStateLayout->addWidget(btnSendFlea, 0, 1, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    //fleaCommonStateLayout->addWidget(btnSendFlea, 1, 0, 1, 2, Qt::AlignHCenter | Qt::AlignVCenter);
 	
+    //Create the tab
     fleaStateTab = new QWidget;
-    fleaStateTab->setLayout(fleaStateLayout);
+    //Set the cap Box's layout
+    capBox->setLayout(fleaStateLayout);
+    msgBox->setLayout(fleaMessageStateLayout);
+    commonBox->setLayout(fleaCommonStateLayout);
+    //Add group boxes to the master layout
+    fleaMasterLayout->addWidget(capBox, Qt::AlignHCenter | Qt::AlignTop);
+    fleaMasterLayout->addWidget(msgBox, Qt::AlignHCenter | Qt::AlignTop);
+    fleaMasterLayout->addWidget(commonBox, Qt::AlignHCenter | Qt::AlignTop);
+    fleaMasterLayout->addWidget(btnSendFlea, Qt::AlignHCenter | Qt::AlignTop);
+    fleaStateTab->setLayout(fleaMasterLayout);
 }
 
 void SensorControlTab::initializeHokuyoStateTab()

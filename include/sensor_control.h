@@ -35,6 +35,8 @@
 #include <QPalette>
 #include <QColor>
 #include <QThread>
+#include <QComboBox>
+#include <QCheckBox>
 
 #include <vector>
 

@@ -95,6 +95,7 @@ public:
   
   ros::NodeHandle n;
   ros::Publisher hokuyo_pub;
+  ros::Publisher flea_pub;
 
 
   // Handler for the nested ach daemon process
@@ -169,7 +170,7 @@ protected Q_SLOTS:
   
   //added 
   void hokuyoEditHandle();
-
+  void sendToFleaHandle();
 
   // Update all state information
   void refreshState();
@@ -221,7 +222,6 @@ private:
     QPushButton* btnSendFlea;
     
     QButtonGroup* radioCmdButtonsFlea;
-    //std::vector<QPushButton*> jointCmdButtons;
     QRadioButton* rbColor;
     QRadioButton* rbGrayscale;
     
@@ -232,6 +232,12 @@ private:
     QPushButton* btnSendIMU;
     
   ///////////////
+  
+  void initializeDynamixelStateTab();
+  QWidget* dynaStateTab;
+  QPushButton* btnSendDyna;
+  QPushButton* btnSendDyna2;
+  QPushButton* btnSendDyna3;
 
 };
 

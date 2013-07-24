@@ -13,6 +13,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "rviz_sensor_control_panel/HokuyoCommand.h"
+#include "rviz_sensor_control_panel/FleaCommand.h"
 #include <sstream>
 
 namespace rviz_sensor_control_panel_space
@@ -54,6 +55,8 @@ SensorControlTab::SensorControlTab(QWidget *parent)
     char **argv;
     ros::init(argc, argv, "talker");
         hokuyo_pub = n.advertise<rviz_sensor_control_panel::HokuyoCommand>("hokuyo_control", 1000);
+    ros::init(argc, argv, "talker");
+        flea_pub = n.advertise<rviz_sensor_control_panel::FleaCommand>("flea_control", 1000);
     //
 
     
@@ -65,16 +68,228 @@ SensorControlTab::SensorControlTab(QWidget *parent)
     
     initializeIMUStateTab();
     std::cerr << "IMU Tab Loaded" << std::endl;
+    
+    initializeDynamixelStateTab();
+    std::cerr << "Dynamixel Tab Loaded" << std::endl;
 
     addTab(hokuyoStateTab, "Hokuyo ladar");
     addTab(fleaStateTab, "Flea3 camera");
     addTab(imuStateTab, "Microstrain IMU");
+    addTab(dynaStateTab, "Dynamixel");
 
     
     refreshManager = new RVizRefreshManager;
     refreshManager->parentWidget = this;
     connect(this, SIGNAL(sendWaitTime(int)), refreshManager, SLOT(getWaitTime(int)));
     refreshManager->start();
+}
+
+void SensorControlTab::initializeDynamixelStateTab()
+{
+	//Create a "Master" layout
+	//Create a box layout.
+    QVBoxLayout* dynaMasterLayout = new QVBoxLayout;
+      
+    //////// Button Group for Neck Pan ////////////
+    QGroupBox* npBox = new QGroupBox;
+    npBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    npBox->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    npBox->setStyleSheet(groupStyleSheet);
+    npBox->setTitle("Neck Pan");
+    
+    //Create a grid layout.
+    QGridLayout* npStateLayout = new QGridLayout;
+    npStateLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    
+    //Abs Theta [Line Edit]
+    
+    // label
+    QLabel* absTheta = new QLabel;
+    absTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    absTheta->setText("Send to this angle (degs)");
+    absTheta->setToolTip("Tilt angle to set dynamixel to (negative is down)");
+    npStateLayout->addWidget(absTheta, 0, 1, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  
+    // abs theta box
+    QLineEdit* txtAbsTheta = new QLineEdit;
+    txtAbsTheta->setMaxLength(6);
+    txtAbsTheta->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    txtAbsTheta->setReadOnly(false);
+    txtAbsTheta->setText("-10.0");
+    txtAbsTheta->setAlignment(Qt::AlignRight);
+    npStateLayout->addWidget(txtAbsTheta, 0, 0, 1, 1, Qt::AlignCenter);
+    
+    //Rate (dps) [Line Edit]
+    
+    // label
+    QLabel* lblRate = new QLabel;
+    lblRate->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    lblRate->setText("Rate (dps) ");
+    lblRate->setToolTip("Tilt rate");
+    npStateLayout->addWidget(lblRate, 1, 1, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  
+    // rate box
+    QLineEdit* txtRate = new QLineEdit;
+    txtRate->setMaxLength(6);
+    txtRate->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    txtRate->setReadOnly(false);
+    txtRate->setText("5.0");
+    txtRate->setAlignment(Qt::AlignRight);
+    npStateLayout->addWidget(txtRate, 1, 0, 1, 1, Qt::AlignCenter);
+     
+    // Compliant On / Off [Check Box]
+    
+    QCheckBox *cbxNPCompliant = new QCheckBox("Compliant Mode", this);
+    npStateLayout->addWidget(cbxNPCompliant, 2, 0, 1, 2, Qt::AlignHCenter | Qt::AlignVCenter); 
+    
+    // NP Button
+    
+    btnSendDyna = new QPushButton;
+    btnSendDyna->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    btnSendDyna->setText("Send to Dynamixel");
+    btnSendDyna->setToolTip("Sends the command.");
+    npStateLayout->addWidget(btnSendDyna, 3, 0, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    
+    npBox->setLayout(npStateLayout);
+        
+    /////// End Button Group for Neck Pan    ///////////////////
+    
+    //Button Group for Neck Tilt
+    
+    QGroupBox* ntBox = new QGroupBox;
+    ntBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    ntBox->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    ntBox->setStyleSheet(groupStyleSheet);
+    ntBox->setTitle("Neck Tilt");
+    
+    //Create a grid layout.
+    QGridLayout* ntStateLayout = new QGridLayout;
+    ntStateLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    
+    //Abs Theta [Line Edit]
+    
+    // label
+    QLabel* absTheta2 = new QLabel;
+    absTheta2->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    absTheta2->setText("Send to this angle (degs)");
+    absTheta2->setToolTip("Tilt angle to set dynamixel to (negative is down)");
+    ntStateLayout->addWidget(absTheta2, 0, 1, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  
+    // abs theta box
+    QLineEdit* txtAbsTheta2 = new QLineEdit;
+    txtAbsTheta2->setMaxLength(6);
+    txtAbsTheta2->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    txtAbsTheta2->setReadOnly(false);
+    txtAbsTheta2->setText("-10.0");
+    txtAbsTheta2->setAlignment(Qt::AlignRight);
+    ntStateLayout->addWidget(txtAbsTheta2, 0, 0, 1, 1, Qt::AlignCenter);
+    
+    //Rate (dps) [Line Edit]
+    
+    // label
+    QLabel* lblRate2 = new QLabel;
+    lblRate2->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    lblRate2->setText("Rate (dps) ");
+    lblRate2->setToolTip("Tilt rate");
+    ntStateLayout->addWidget(lblRate2, 1, 1, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  
+    // rate box
+    QLineEdit* txtRate2 = new QLineEdit;
+    txtRate2->setMaxLength(6);
+    txtRate2->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    txtRate2->setReadOnly(false);
+    txtRate2->setText("5.0");
+    txtRate2->setAlignment(Qt::AlignRight);
+    ntStateLayout->addWidget(txtRate2, 1, 0, 1, 1, Qt::AlignCenter);
+     
+    // Compliant On / Off [Check Box]
+    
+    QCheckBox *cbxNTCompliant = new QCheckBox("Compliant Mode", this);
+    ntStateLayout->addWidget(cbxNTCompliant, 2, 0, 1, 2, Qt::AlignHCenter | Qt::AlignVCenter); 
+    
+    // NT Button
+    
+    btnSendDyna2 = new QPushButton;
+    btnSendDyna2->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    btnSendDyna2->setText("Send to Dynamixel");
+    btnSendDyna2->setToolTip("Sends the command.");
+    ntStateLayout->addWidget(btnSendDyna2, 3, 0, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    
+    ntBox->setLayout(ntStateLayout);    
+    //End BG for Neck Tilt
+    
+    //Button Group for Hokuyo Tilt
+    
+    QGroupBox* htBox = new QGroupBox;
+    htBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    htBox->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    htBox->setStyleSheet(groupStyleSheet);
+    htBox->setTitle("Hokuyo Tilt");
+    
+    //Create a grid layout.
+    QGridLayout* htStateLayout = new QGridLayout;
+    htStateLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    
+    //Abs Theta [Line Edit]
+    
+    // label
+    QLabel* absTheta3 = new QLabel;
+    absTheta3->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    absTheta3->setText("Send to this angle (degs)");
+    absTheta3->setToolTip("Tilt angle to set dynamixel to (negative is down)");
+    htStateLayout->addWidget(absTheta3, 0, 1, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  
+    // abs theta box
+    QLineEdit* txtAbsTheta3 = new QLineEdit;
+    txtAbsTheta3->setMaxLength(6);
+    txtAbsTheta3->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    txtAbsTheta3->setReadOnly(false);
+    txtAbsTheta3->setText("-10.0");
+    txtAbsTheta3->setAlignment(Qt::AlignRight);
+    htStateLayout->addWidget(txtAbsTheta3, 0, 0, 1, 1, Qt::AlignCenter);
+    
+    //Rate (dps) [Line Edit]
+    
+    // label
+    QLabel* lblRate3 = new QLabel;
+    lblRate3->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    lblRate3->setText("Rate (dps) ");
+    lblRate3->setToolTip("Tilt rate");
+    htStateLayout->addWidget(lblRate3, 1, 1, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
+  
+    // rate box
+    QLineEdit* txtRate3 = new QLineEdit;
+    txtRate3->setMaxLength(6);
+    txtRate3->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    txtRate3->setReadOnly(false);
+    txtRate3->setText("5.0");
+    txtRate3->setAlignment(Qt::AlignRight);
+    htStateLayout->addWidget(txtRate3, 1, 0, 1, 1, Qt::AlignCenter);
+     
+    // Compliant On / Off [Check Box]
+    
+    QCheckBox *cbxHTCompliant = new QCheckBox("Compliant Mode", this);
+    htStateLayout->addWidget(cbxHTCompliant, 2, 0, 1, 2, Qt::AlignHCenter | Qt::AlignVCenter); 
+    
+    // HT Button
+    
+    btnSendDyna3 = new QPushButton;
+    btnSendDyna3->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    btnSendDyna3->setText("Send to Dynamixel");
+    btnSendDyna3->setToolTip("Sends the command.");
+    htStateLayout->addWidget(btnSendDyna3, 3, 0, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    
+    htBox->setLayout(htStateLayout);    
+    
+    //End BG for Hokuyo Tilt
+    
+    //Add boxes
+    dynaMasterLayout->addWidget(npBox);
+    dynaMasterLayout->addWidget(ntBox);	
+    dynaMasterLayout->addWidget(htBox); 
+	
+    dynaStateTab = new QWidget;
+    dynaStateTab->setLayout(dynaMasterLayout);
 }
 
 void SensorControlTab::initializeIMUStateTab()
@@ -300,7 +515,9 @@ void SensorControlTab::initializeFleaStateTab()
     btnSendFlea->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     btnSendFlea->setText("Send to Flea");
     btnSendFlea->setToolTip("Sends the command.");
-    //fleaCommonStateLayout->addWidget(btnSendFlea, 1, 0, 1, 2, Qt::AlignHCenter | Qt::AlignVCenter);
+    
+    // Hook up the button to the slot code
+    connect(btnSendFlea, SIGNAL(clicked()), this, SLOT(sendToFleaHandle()));
 	
     //Create the tab
     fleaStateTab = new QWidget;
@@ -396,9 +613,8 @@ void SensorControlTab::initializeHokuyoStateTab()
   btnScan->setText("Start Sweep");
   btnScan->setToolTip("Execute single sweep now");
   hStateLayout->addWidget(btnScan, 5, 0, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
-  
-  //Will need to connect this later
 
+  // Hook up the button to the slot code
   connect(btnScan, SIGNAL(clicked()), this, SLOT(hokuyoEditHandle()));
   
   hBox->setLayout(hStateLayout);

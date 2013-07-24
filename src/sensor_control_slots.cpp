@@ -12,6 +12,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "rviz_sensor_control_panel/HokuyoCommand.h"
+#include "rviz_sensor_control_panel/FleaCommand.h"
 
 namespace rviz_sensor_control_panel_space
 {
@@ -30,16 +31,41 @@ void SensorControlTab::hokuyoEditHandle()
     ros::Rate loop_rate(10);
     loop_rate.sleep();
 
-    std::cerr << "hello!\n";
-
     printf("hokuyo edit\n"); fflush(stdout);
 
-    
     rviz_sensor_control_panel::HokuyoCommand msg;
     msg.minTheta = txtMinTheta->text().toFloat();
     msg.maxTheta = txtMaxTheta->text().toFloat();
     msg.degreesPerSecond = txtDPS->text().toFloat();
     hokuyo_pub.publish(msg);
+    
+
+    //ROS_INFO("%s", msg.data.c_str());
+    ros::spinOnce();
+
+    //    loop_rate.sleep();
+}
+
+void SensorControlTab::sendToFleaHandle()
+{
+    //std::cerr << "Hokuyo Scan: start at: " << txtMinTheta->text().toStdString() << "end at: " << txtMaxTheta->text().toStdString() << " at a rate of " << txtDPS->text().toStdString() << std::endl;
+   
+    ros::Rate loop_rate(10);
+    loop_rate.sleep();
+
+    printf("send to flea \n"); fflush(stdout);
+
+    rviz_sensor_control_panel::FleaCommand msg;
+    if(rbColor->isChecked() == true)
+    {
+      msg.colorMode = 1;
+    }
+    else
+    {
+		msg.colorMode = 0;
+	}
+		
+    flea_pub.publish(msg);
     
 
     //ROS_INFO("%s", msg.data.c_str());

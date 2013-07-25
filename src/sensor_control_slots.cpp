@@ -54,16 +54,54 @@ void SensorControlTab::sendToFleaHandle()
     loop_rate.sleep();
 
     printf("send to flea \n"); fflush(stdout);
-
+    
+   
     rviz_sensor_control_panel::FleaCommand msg;
-    if(rbColor->isChecked() == true)
+    //load common info
+    if(cbxAutoExp->isChecked() == true)
     {
-      msg.colorMode = 1;
+      msg.autoExposure = 1;
     }
     else
     {
-		msg.colorMode = 0;
+		msg.autoExposure = 0;
 	}
+	if(cbxTrigger->isChecked() == true)
+    {
+      msg.trigger = 1;
+    }
+    else
+    {
+		msg.trigger = 0;
+	}
+    
+    // load capture settings
+    if(rbColor->isChecked() == true)
+    {
+      msg.captureColorMode = 1;
+    }
+    else
+    {
+		msg.captureColorMode = 0;
+	}
+	msg.captureImageSize = resComboBox->currentIndex();
+	msg.captureFPS = fpsComboBox->currentIndex();
+	
+	 // load msg send settings
+	 
+    if(rbMsgColor->isChecked() == true)
+    {
+      msg.sendColorMode = 1;
+    }
+    else
+    {
+		msg.sendColorMode = 0;
+	}
+	msg.sendImageSize = resMsgComboBox->currentIndex();
+	msg.sendFPS = fpsMsgComboBox->currentIndex();
+	
+	
+	// publish
 		
     flea_pub.publish(msg);
     

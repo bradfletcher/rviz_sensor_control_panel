@@ -1,6 +1,9 @@
 Header header
-int32 colorMode
-int32 autoExposure
-int32 imageSize
-int32 fps
 int32 trigger
+int32 autoExposure
+int32 captureColorMode
+int32 captureImageSize
+int32 captureFPS
+int32 sendColorMode
+int32 sendImageSize
+int32 sendFPS

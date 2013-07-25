@@ -357,7 +357,7 @@ void SensorControlTab::initializeFleaStateTab()
      //4 - 80 x 60
      //5 - 40 x 30
      
-     QComboBox *resComboBox = new QComboBox;
+     resComboBox = new QComboBox;
      resComboBox->addItem(tr("1280 x 960"));
      resComboBox->addItem(tr("640 x 480"));
      resComboBox->addItem(tr("320 x 240"));
@@ -376,7 +376,7 @@ void SensorControlTab::initializeFleaStateTab()
      fleaStateLayout->addWidget(lblRes, 0, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
               
      //fps
-     QComboBox *fpsComboBox = new QComboBox;
+     fpsComboBox = new QComboBox;
      fpsComboBox->addItem(tr("60"));
      fpsComboBox->addItem(tr("30"));
      fpsComboBox->addItem(tr("15"));
@@ -415,14 +415,14 @@ void SensorControlTab::initializeFleaStateTab()
 
     radioMsgCmdButtonsFlea->setExclusive(true);
 
-    QRadioButton* rbMsgColor = new QRadioButton;
+    rbMsgColor = new QRadioButton;
     rbMsgColor->setText("Color");
     rbMsgColor->setToolTip("Get color images");
     rbMsgColor->setChecked(true);
     radioMsgCmdButtonsFlea->addButton(rbMsgColor);
     radioMsgLayoutFlea->addWidget(rbMsgColor);
 
-    QRadioButton* rbMsgGrayscale = new QRadioButton;
+    rbMsgGrayscale = new QRadioButton;
     rbMsgGrayscale->setText("Grayscale");
     rbMsgGrayscale->setToolTip("Get grayscale images");
     radioMsgCmdButtonsFlea->addButton(rbMsgGrayscale);
@@ -439,7 +439,7 @@ void SensorControlTab::initializeFleaStateTab()
      //4 - 80 x 60
      //5 - 40 x 30
      
-     QComboBox *resMsgComboBox = new QComboBox;
+     resMsgComboBox = new QComboBox;
      resMsgComboBox->addItem(tr("1280 x 960"));
      resMsgComboBox->addItem(tr("640 x 480"));
      resMsgComboBox->addItem(tr("320 x 240"));
@@ -467,7 +467,7 @@ void SensorControlTab::initializeFleaStateTab()
      fleaMessageStateLayout->addWidget(cbxMsgTrigger, 1, 3, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter); */
          
      //fps
-     QComboBox *fpsMsgComboBox = new QComboBox;
+     fpsMsgComboBox = new QComboBox;
      fpsMsgComboBox->addItem(tr("60"));
      fpsMsgComboBox->addItem(tr("30"));
      fpsMsgComboBox->addItem(tr("15"));
@@ -501,11 +501,11 @@ void SensorControlTab::initializeFleaStateTab()
     commonBox->setTitle("Common Settings");
     
       //auto exp
-     QCheckBox *cbxAutoExp = new QCheckBox("Auto Exposure", this);
+     cbxAutoExp = new QCheckBox("Auto Exposure", this);
      fleaCommonStateLayout->addWidget(cbxAutoExp, 0, 1, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
      
      //trigger
-     QCheckBox *cbxTrigger = new QCheckBox("Trigger", this);
+     cbxTrigger = new QCheckBox("Trigger", this);
      fleaCommonStateLayout->addWidget(cbxTrigger, 0, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
     
     ////////////////////   end of Group Box for common buttons   ////////////////////////

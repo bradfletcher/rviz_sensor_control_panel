@@ -224,6 +224,14 @@ private:
     QButtonGroup* radioCmdButtonsFlea;
     QRadioButton* rbColor;
     QRadioButton* rbGrayscale;
+    QComboBox *resComboBox;
+    QComboBox *fpsComboBox;
+    QCheckBox *cbxAutoExp;
+    QCheckBox *cbxTrigger;
+    QRadioButton* rbMsgColor;
+    QRadioButton* rbMsgGrayscale;
+    QComboBox *resMsgComboBox;   
+    QComboBox *fpsMsgComboBox;
     
   ///////////////
   

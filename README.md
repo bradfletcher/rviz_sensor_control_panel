@@ -1,14 +1,11 @@
-Questions/Support: brad@udel.edu
+Questions/Support: Brad Fletcher brad@udel.edu
 
-Thanks to Grey at GT for allowing me to modify portion of the GT 
-'hubo init" program.  mxgrey@gatech.edu
-
+Thanks to Grey at GT for allowing me to use the "hubo init" program as a model.
+ 
 RViz plugin for working with sensors.
 
 As was decided at the Drexel meeting in February, GUIs for operating Hubo on Linux
-are going to be ROS-based (specifically using RViz). This is the first step in making
-that integration a reality.
-
+are going to be ROS-based (specifically using RViz).
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _______________________________  IF  YOU  ARE  NEW  TO  ROS  _________________________________
@@ -20,21 +17,15 @@ whether or not you are familiar with ROS.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ___________________________ PREREQUISITES ______________________________
 
-This package depends on both ROS.
-
-To obtain hubo-ach, follow the instructions here:
-https://github.com/hubo/hubo-ach
+This package depends on ROS.
 
 To obtain ROS, follow the instructions here (BE SURE TO INSTALL GROOVY):
 http://www.ros.org/wiki/groovy/Installation/Ubuntu
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 _________________Installation (after satisfying the Prerequisites above):____________________
@@ -51,7 +42,6 @@ source ~/catkin_ws/devel/setup.bash
 echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
 
 From now on, the directory ~/catkin_ws/src will be where you keep your ROS package code.
-
 
 To install rviz_sensor_control_panel, copy/paste the following block into a terminal:
 
@@ -77,7 +67,7 @@ To use rviz_sensor_control_panel, do the following:
     a) In the menu bar at the very top, click on 'Panels'
     b) Click on 'Add new panel'
     c) Select rviz_sensor_control_panel
-    d) A panel should appear in rviz with options to send Hokuyo commands, Camera commands, and IMU commands
+    d) A panel should appear in rviz with options to send Hokuyo commands, Camera commands, IMU commands, and Dynamixel commands.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

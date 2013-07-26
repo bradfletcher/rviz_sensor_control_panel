@@ -4,8 +4,19 @@ project(rviz_sensor_control_panel)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package( catkin REQUIRED )
+find_package( catkin REQUIRED COMPONENTS roscpp rospy message_generation)
 
+add_message_files(
+  FILES
+  HokuyoCommand.msg
+  FleaCommand.msg
+  IMU.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs 
+)
 
 ## This plugin includes Qt widgets, so we must include Qt like so:
 find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
@@ -14,8 +25,10 @@ include(${QT_USE_FILE})
 catkin_package(
     INCLUDE_DIRS include
     LIBRARIES ${PROJECT_NAME}
-    CATKIN_DEPENDS roscpp rospy
+    CATKIN_DEPENDS roscpp rospy message_runtime
     DEPENDS ach QtCore QtGui )
+    
+
 
 ## I prefer the Qt signals and slots to avoid defining "emit", "slots",
 ## etc because they can conflict with boost signals, so define QT_NO_KEYWORDS here.

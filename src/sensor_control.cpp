@@ -605,6 +605,32 @@ void SensorControlTab::initializeHokuyoStateTab()
   txtDPS->setText("5.0");
   txtDPS->setAlignment(Qt::AlignRight);
   hStateLayout->addWidget(txtDPS, 1, 2, 1, 1, Qt::AlignCenter);
+  
+   //Voxelize button
+
+    QRadioButton* rbVoxelize = new QRadioButton;
+    rbVoxelize->setText("Voxelize");
+    rbVoxelize->setToolTip("Enable to voxelize pointcloud that is returned.");
+    rbVoxelize->setChecked(true);
+    hStateLayout->addWidget(rbVoxelize, 2, 0, 1, 1, Qt::AlignCenter);
+    
+    // Voxel res text box
+
+  QLineEdit* txtVoxelRes = new QLineEdit;
+  txtVoxelRes->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  txtVoxelRes->setMaxLength(6);
+  txtVoxelRes->setReadOnly(false);
+  txtVoxelRes->setText("5.0");
+  txtVoxelRes->setAlignment(Qt::AlignRight);
+  hStateLayout->addWidget(txtVoxelRes, 2, 1, 1, 1, Qt::AlignCenter);
+  
+   // Voxel res label
+
+  QLabel* lblVoxelRes = new QLabel;
+  lblVoxelRes->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+  lblVoxelRes->setText("Voxel Resolution");
+  lblVoxelRes->setToolTip("Voxel Resolution to send pointcloud at");
+  hStateLayout->addWidget(lblVoxelRes, 2, 2, 1, 1, Qt::AlignLeft | Qt::AlignBottom );
 
   // button
 

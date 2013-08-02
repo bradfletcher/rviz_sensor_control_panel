@@ -195,6 +195,12 @@ private:
 
   std::vector<QString> ftName;
   
+  //////////////
+  void initializeKinFuStateTab();
+  QPushButton* btnKinFuStart;
+  QPushButton* btnKinFuStop;
+  QWidget* kfStateTab;
+  
   ///////////////
   void initializeHokuyoStateTab();
   QWidget* hokuyoStateTab;
@@ -209,6 +215,8 @@ private:
     QLineEdit* txtMinTheta;
     QLineEdit* txtMaxTheta;
     QLineEdit* txtDPS;
+    QLineEdit* txtVoxelRes;
+    QCheckBox* cbxVoxelize;
 
     //QLineEdit* w_x;
     //QLineEdit* w_y;

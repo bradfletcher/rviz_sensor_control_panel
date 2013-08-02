@@ -71,11 +71,15 @@ SensorControlTab::SensorControlTab(QWidget *parent)
     
     initializeDynamixelStateTab();
     std::cerr << "Dynamixel Tab Loaded" << std::endl;
-
+    
+    initializeKinFuStateTab();
+	std::cerr << "KinFu Tab Loaded" << std::endl;
+	
     addTab(hokuyoStateTab, "Hokuyo ladar");
     addTab(fleaStateTab, "Flea3 camera");
     addTab(imuStateTab, "Microstrain IMU");
     addTab(dynaStateTab, "Dynamixel");
+    addTab(kfStateTab, "KinFu");
 
     
     refreshManager = new RVizRefreshManager;
@@ -306,6 +310,30 @@ void SensorControlTab::initializeIMUStateTab()
 	
     imuStateTab = new QWidget;
     imuStateTab->setLayout(imuStateLayout);
+}
+
+void SensorControlTab::initializeKinFuStateTab()
+{
+    //Create a grid layout.
+    QGridLayout* kfStateLayout = new QGridLayout;
+    kfStateLayout->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
+	
+	//Start button
+	btnKinFuStart = new QPushButton;
+    btnKinFuStart->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    btnKinFuStart->setText("Start KinFu");
+    btnKinFuStart->setToolTip("Starts Kinect Fusion");
+    kfStateLayout->addWidget(btnKinFuStart, 0, 0, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    
+    //Stop button
+    btnKinFuStop = new QPushButton;
+    btnKinFuStop->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    btnKinFuStop->setText("Stop KinFu");
+    btnKinFuStop->setToolTip("Stops Kinect Fusion");
+    kfStateLayout->addWidget(btnKinFuStop, 0, 1, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+	
+    kfStateTab = new QWidget;
+    kfStateTab->setLayout(kfStateLayout);
 }
 
 void SensorControlTab::initializeFleaStateTab()
@@ -607,16 +635,15 @@ void SensorControlTab::initializeHokuyoStateTab()
   hStateLayout->addWidget(txtDPS, 1, 2, 1, 1, Qt::AlignCenter);
   
    //Voxelize button
-
-    QRadioButton* rbVoxelize = new QRadioButton;
-    rbVoxelize->setText("Voxelize");
-    rbVoxelize->setToolTip("Enable to voxelize pointcloud that is returned.");
-    rbVoxelize->setChecked(true);
-    hStateLayout->addWidget(rbVoxelize, 2, 0, 1, 1, Qt::AlignCenter);
+    cbxVoxelize = new QCheckBox("Voxelize", this);
+    cbxVoxelize->setText("Voxelize");
+    cbxVoxelize->setToolTip("Enable to voxelize pointcloud that is returned.");
+    cbxVoxelize->setChecked(true);
+    hStateLayout->addWidget(cbxVoxelize, 2, 0, 1, 1, Qt::AlignCenter);
     
     // Voxel res text box
 
-  QLineEdit* txtVoxelRes = new QLineEdit;
+  txtVoxelRes = new QLineEdit;
   txtVoxelRes->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
   txtVoxelRes->setMaxLength(6);
   txtVoxelRes->setReadOnly(false);

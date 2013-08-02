@@ -37,6 +37,15 @@ void SensorControlTab::hokuyoEditHandle()
     msg.minTheta = txtMinTheta->text().toFloat();
     msg.maxTheta = txtMaxTheta->text().toFloat();
     msg.degreesPerSecond = txtDPS->text().toFloat();
+     if(cbxVoxelize->isChecked() == true)
+    {
+      msg.voxelize = 1;
+    }
+    else
+    {
+		msg.voxelize = 0;
+	}
+	msg.voxelResolution = txtVoxelRes->text().toFloat();
     hokuyo_pub.publish(msg);
     
 

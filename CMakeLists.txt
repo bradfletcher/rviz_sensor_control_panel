@@ -11,6 +11,7 @@ add_message_files(
   HokuyoCommand.msg
   FleaCommand.msg
   IMU.msg
+  KinFuCommand.msg
 )
 
 generate_messages(

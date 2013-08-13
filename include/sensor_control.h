@@ -96,6 +96,7 @@ public:
   ros::NodeHandle n;
   ros::Publisher hokuyo_pub;
   ros::Publisher flea_pub;
+  ros::Publisher kinFu_pub;
 
 
   // Handler for the nested ach daemon process
@@ -171,6 +172,7 @@ protected Q_SLOTS:
   //added 
   void hokuyoEditHandle();
   void sendToFleaHandle();
+  void sendToKinFuHandle();
 
   // Update all state information
   void refreshState();

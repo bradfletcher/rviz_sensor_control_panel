@@ -14,6 +14,7 @@
 #include "std_msgs/String.h"
 #include "rviz_sensor_control_panel/HokuyoCommand.h"
 #include "rviz_sensor_control_panel/FleaCommand.h"
+#include "rviz_sensor_control_panel/KinFuCommand.h"
 #include <sstream>
 
 namespace rviz_sensor_control_panel_space
@@ -57,6 +58,8 @@ SensorControlTab::SensorControlTab(QWidget *parent)
         hokuyo_pub = n.advertise<rviz_sensor_control_panel::HokuyoCommand>("hokuyo_control", 1000);
     ros::init(argc, argv, "talker");
         flea_pub = n.advertise<rviz_sensor_control_panel::FleaCommand>("flea_control", 1000);
+    ros::init(argc, argv, "talker");
+        kinFu_pub = n.advertise<rviz_sensor_control_panel::KinFuCommand>("kin_fu_control", 1000);
     //
 
     

@@ -13,6 +13,7 @@
 #include "std_msgs/String.h"
 #include "rviz_sensor_control_panel/HokuyoCommand.h"
 #include "rviz_sensor_control_panel/FleaCommand.h"
+#include "rviz_sensor_control_panel/KinFuCommand.h"
 
 namespace rviz_sensor_control_panel_space
 {
@@ -119,6 +120,16 @@ void SensorControlTab::sendToFleaHandle()
     ros::spinOnce();
 
     //    loop_rate.sleep();
+}
+void SensorControlTab::sendToKinFuHandle()
+{
+  ros::Rate loop_rate(10);
+  loop_rate.sleep();
+
+  printf("send to kinfu \n"); fflush(stdout);
+    
+  rviz_sensor_control_panel::KinFuCommand msg;
+    	
 }
 
 } // End: namespace rviz_sensor_control_panel_space
